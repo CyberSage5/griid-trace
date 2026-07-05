@@ -38,7 +38,7 @@ export const Flamegraph: React.FC<FlamegraphProps> = ({
     const rowHeight = 22;
     const nodes: LayoutNode[] = [];
 
-    const layoutNode = (node: typeof flat[0], xOffset: number, siblingWidth: number) => {
+    const layoutNode = (node: typeof flat[0], xOffset: number) => {
       const duration = node.durationMs || 100;
       const widthPct = (duration / totalMs) * 100 * zoom;
       const xPct = ((node.startMs - startMs) / totalMs) * 100 * zoom + xOffset;
@@ -56,12 +56,12 @@ export const Flamegraph: React.FC<FlamegraphProps> = ({
       const childTotal = node.children.reduce((s, c) => s + (c.durationMs || 100), 0) || 1;
       for (const child of node.children) {
         const childW = (child.durationMs / childTotal) * widthPct;
-        layoutNode(child, childX, childW);
+        layoutNode(child, childX);
         childX += childW;
       }
     };
 
-    roots.forEach((r) => layoutNode(r, 0, 100));
+    roots.forEach((r) => layoutNode(r, 0));
 
     return { nodes, totalMs };
   }, [events, zoom]);
