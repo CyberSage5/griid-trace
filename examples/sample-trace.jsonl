@@ -1,0 +1,6 @@
+{"ts":"2026-07-02T15:30:00.123Z","trace_id":"t_demo_001","span_id":"s_root","parent_id":null,"name":"agent_execution","status":"ok","attrs":{"total_latency_ms":5230,"total_cost_usd":0.056,"input":"What is the capital of France?"}}
+{"ts":"2026-07-02T15:30:00.150Z","trace_id":"t_demo_001","span_id":"s_llm_1","parent_id":"s_root","name":"llm_call","status":"ok","attrs":{"model":"claude-3.5","tokens_in":50,"tokens_out":30,"latency_ms":1200,"cost_usd":0.012}}
+{"ts":"2026-07-02T15:30:01.400Z","trace_id":"t_demo_001","span_id":"s_tool_1","parent_id":"s_root","name":"tool_call","status":"ok","attrs":{"tool":"search","latency_ms":800,"query":"capital of France"}}
+{"ts":"2026-07-02T15:30:02.250Z","trace_id":"t_demo_001","span_id":"s_llm_2","parent_id":"s_root","name":"llm_call","status":"ok","attrs":{"model":"claude-3.5","tokens_in":120,"tokens_out":45,"latency_ms":1800,"cost_usd":0.024}}
+{"ts":"2026-07-02T15:30:04.100Z","trace_id":"t_demo_001","span_id":"s_tool_2","parent_id":"s_root","name":"tool_call","status":"error","attrs":{"tool":"calculator","latency_ms":200,"error":"Division by zero"}}
+{"ts":"2026-07-02T15:30:04.350Z","trace_id":"t_demo_001","span_id":"s_llm_3","parent_id":"s_root","name":"llm_call","status":"ok","attrs":{"model":"claude-3.5","tokens_in":80,"tokens_out":25,"latency_ms":900,"cost_usd":0.020}}

@@ -1,0 +1,37 @@
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: cargo
+    directory: "/tauri"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: cargo
+    directory: "/adapters/rust"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: pip
+    directory: "/adapters/python"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: npm
+    directory: "/adapters/typescript"
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly

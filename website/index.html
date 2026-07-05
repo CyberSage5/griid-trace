@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="griid-trace: Chrome DevTools for AI Agents — 100% Local. Open source observability for local AI agent development. Your data never leaves your machine.">
+    <meta name="keywords" content="AI agents, observability, tracing, local-first, open source, Rust, TUI, flamegraph">
+    <meta name="author" content="griid-trace">
+    <meta property="og:title" content="griid-trace — Chrome DevTools for AI Agents">
+    <meta property="og:description" content="100% Local. Open source observability for local AI agent development.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://griid-trace.xyz">
+    <meta property="og:image" content="https://griid-trace.xyz/og-image.png">
+    <link rel="canonical" href="https://griid-trace.xyz/">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>griid-trace — Chrome DevTools for AI Agents (100% Local)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(135deg, #58a6ff 0%, #3fb950 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #21262d 100%);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(88, 166, 255, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-[#0d1117] text-gray-200">
+    <!-- Navigation -->
+    <nav class="border-b border-[#30363d] bg-[#161b22]/80 backdrop-blur-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#3fb950] rounded-lg flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold text-white">griid-trace</span>
+                </div>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#features" class="text-gray-400 hover:text-white transition">Features</a>
+                    <a href="#how-it-works" class="text-gray-400 hover:text-white transition">How it Works</a>
+                    <a href="#pricing" class="text-gray-400 hover:text-white transition">Pricing</a>
+                    <a href="compare.html" class="text-gray-400 hover:text-white transition">vs Cloud</a>
+                    <a href="download.html" class="text-gray-400 hover:text-white transition">Download</a>
+                    <a href="https://github.com/griid-trace/griid-trace" class="text-gray-400 hover:text-white transition">GitHub</a>
+                </div>
+                <div class="flex items-center gap-4">
+                    <a href="https://github.com/griid-trace/griid-trace" class="flex items-center gap-2 px-4 py-2 bg-[#21262d] border border-[#30363d] rounded-lg hover:border-[#58a6ff] transition">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        <span>Star</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-24 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-[#21262d] border border-[#30363d] rounded-full mb-8">
+                <span class="w-2 h-2 bg-[#3fb950] rounded-full animate-pulse"></span>
+                <span class="text-sm text-gray-300">100% Open Source • Your Data Never Leaves Your Machine</span>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
+                Chrome DevTools for <span class="gradient-text">AI Agents</span>
+            </h1>
+            
+            <p class="text-xl text-gray-400 max-w-3xl mx-auto mb-12">
+                Every AI agent is a black box. griid-trace makes it a glass box using a single local file. 
+                Live flamegraphs, timelines, and cost breakdowns. No cloud. No login. Your data never leaves your laptop.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                <a href="#install" class="px-8 py-4 bg-[#58a6ff] text-[#0d1117] font-semibold rounded-lg hover:bg-[#58a6ff]/90 transition text-lg">
+                    Install TUI (Free)
+                </a>
+                <a href="#download" class="px-8 py-4 bg-[#21262d] border border-[#30363d] text-white font-semibold rounded-lg hover:border-[#58a6ff] transition text-lg">
+                    Download Desktop
+                </a>
+            </div>
+
+            <!-- Trust Signals -->
+            <div class="flex flex-wrap items-center justify-center gap-8 text-sm text-gray-500">
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <span>Zero Telemetry</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/>
+                    </svg>
+                    <span>Single Binary</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
+                    </svg>
+                    <span>Air-Gapped Friendly</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 px-4 bg-[#161b22]">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-white text-center mb-16">Features</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-[#21262d] border border-[#30363d] rounded-xl p-6 card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-[#58a6ff]/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-[#58a6ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Interactive TUI</h3>
+                    <p class="text-gray-400">Keyboard-first terminal UI with table view, flamegraph, and detailed inspection. 60fps rendering.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-[#21262d] border border-[#30363d] rounded-xl p-6 card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-[#3fb950]/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Flamegraph Visualization</h3>
+                    <p class="text-gray-400">Beautiful flamegraphs showing execution timeline, latency distribution, and span hierarchy.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-[#21262d] border border-[#30363d] rounded-xl p-6 card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-[#d29922]/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-[#d29922]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Cost Tracking</h3>
+                    <p class="text-gray-400">Track token usage and costs across all LLM calls. Understand where your money goes.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-[#21262d] border border-[#30363d] rounded-xl p-6 card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-[#f85149]/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-[#f85149]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">HTML Export</h3>
+                    <p class="text-gray-400">Generate self-contained HTML reports for sharing traces with teammates or for documentation.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-[#21262d] border border-[#30363d] rounded-xl p-6 card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-[#8b949e]/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-[#8b949e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Language Adapters</h3>
+                    <p class="text-gray-400">Python, Rust, and more. Lightweight adapters that work with any agent framework.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-[#21262d] border border-[#30363d] rounded-xl p-6 card-hover transition-all duration-300">
+                    <div class="w-12 h-12 bg-[#58a6ff]/10 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-[#58a6ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Blazing Fast</h3>
+                    <p class="text-gray-400">Parse 100k spans in under 200ms. Built in Rust for maximum performance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-24 px-4 bg-[#0d1117]">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-white text-center mb-16">How It Works</h2>
+            
+            <div class="grid md:grid-cols-3 gap-12">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-[#58a6ff] rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold text-[#0d1117]">1</div>
+                    <h3 class="text-xl font-semibold text-white mb-4">Emit Traces</h3>
+                    <p class="text-gray-400">Use our lightweight adapters to emit trace events from your agent. Just a few lines of code.</p>
+                    <div class="mt-4 bg-[#161b22] rounded-lg p-4 text-left">
+                        <code class="text-sm text-[#58a6ff]">
+                            with span("llm_call", model="claude-3.5"):<br>
+                            &nbsp;&nbsp;response = call_llm()
+                        </code>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-[#3fb950] rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold text-[#0d1117]">2</div>
+                    <h3 class="text-xl font-semibold text-white mb-4">trace.jsonl</h3>
+                    <p class="text-gray-400">Events are appended to a local trace.jsonl file. Simple, append-only format. No database needed.</p>
+                    <div class="mt-4 bg-[#161b22] rounded-lg p-4 text-left">
+                        <code class="text-sm text-[#3fb950]">
+                            {"ts": "...", "name": "llm_call", ...}<br>
+                            {"ts": "...", "name": "tool_call", ...}
+                        </code>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-[#d29922] rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold text-[#0d1117]">3</div>
+                    <h3 class="text-xl font-semibold text-white mb-4">View & Analyze</h3>
+                    <p class="text-gray-400">Open the file with the TUI or Desktop app. See flamegraphs, timelines, and cost breakdowns.</p>
+                    <div class="mt-4 bg-[#161b22] rounded-lg p-4 text-left">
+                        <code class="text-sm text-[#d29922]">
+                            trace.tui --watch trace.jsonl<br>
+                            # Or use Desktop app
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section id="install" class="py-24 px-4 bg-[#161b22]">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-white text-center mb-16">Install TUI (Free)</h2>
+            
+            <div class="bg-[#21262d] border border-[#30363d] rounded-xl p-8">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="px-3 py-1 bg-[#58a6ff] text-[#0d1117] text-sm font-semibold rounded">Rust</span>
+                    <span class="text-gray-400">One-line installation</span>
+                </div>
+                
+                <div class="bg-[#0d1117] rounded-lg p-4 mb-6">
+                    <code class="text-[#58a6ff] text-lg">cargo install griid-trace</code>
+                </div>
+                
+                <p class="text-gray-400 mb-6">Or build from source:</p>
+                
+                <div class="bg-[#0d1117] rounded-lg p-4">
+                    <code class="text-[#58a6ff]">
+                        git clone https://github.com/griid-trace/griid-trace.git<br>
+                        cd griid-trace<br>
+                        cargo install --path .
+                    </code>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="https://github.com/griid-trace/griid-trace" class="inline-flex items-center gap-2 px-6 py-3 bg-[#21262d] border border-[#30363d] rounded-lg hover:border-[#58a6ff] transition">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <span>View on GitHub</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Desktop -->
+    <section id="download" class="py-24 px-4 bg-[#0d1117]">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-white text-center mb-4">Download Desktop App</h2>
+            <p class="text-gray-400 text-center mb-16">Premium features: Advanced flamegraphs, replay mode, run diff, analytics charts</p>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Windows -->
+                <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 bg-[#58a6ff]/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-[#58a6ff]" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Windows</h3>
+                    <p class="text-gray-400 text-sm mb-4">x64 and ARM64</p>
+                    <button class="w-full px-4 py-2 bg-[#58a6ff] text-[#0d1117] font-semibold rounded-lg hover:bg-[#58a6ff]/90 transition">
+                        Download
+                    </button>
+                </div>
+
+                <!-- macOS -->
+                <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 bg-[#3fb950]/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-[#3fb950]" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">macOS</h3>
+                    <p class="text-gray-400 text-sm mb-4">Intel and Apple Silicon</p>
+                    <button class="w-full px-4 py-2 bg-[#58a6ff] text-[#0d1117] font-semibold rounded-lg hover:bg-[#58a6ff]/90 transition">
+                        Download
+                    </button>
+                </div>
+
+                <!-- Linux -->
+                <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-6 text-center">
+                    <div class="w-16 h-16 bg-[#d29922]/10 rounded-lg flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-[#d29922]" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.328 2.63-1.088 3.341-.059.054-.082.12-.082.196 0 .05.017.098.047.141.031.043.08.074.133.088.167.045.339.082.514.109.336.053.
+682.082 1.029.082.446 0 .886-.053 1.311-.156.425-.102.836-.252 1.227-.447.39-.195.76-.434 1.101-.709.34-.275.65-.582.925-.918.275-.336.513-.698.711-1.083.198-.385.355-.791.469-1.217.113-.425.182-.863.205-1.311.022-.449-.003-.898-.076-1.342-.072-.445-.19-.883-.354-1.311-.163-.428-.383-.842-.658-1.241-.275-.399-.603-.777-.984-1.134-.38-.357-.812-.693-1.296-1.009-.483-.315-1.017-.61-1.6-.883-.584-.273-1.217-.524-1.9-.753-.683-.229-1.416-.435-2.199-.619-.783-.184-1.616-.345-2.5-.483-.883-.138-1.816-.253-2.799-.345-.982-.092-2.014-.161-3.095-.207-1.081-.046-2.211-.069-3.389-.069-1.179 0-2.309.023-3.39.069-1.081.046-2.113.115-3.096.207-.982.092-1.915.207-2.799.345-.883.138-1.717.299-2.5.483-.783.184-1.516.39-2.199.619-.683.229-1.316.48-1.9.753-.583.273-1.117.568-1.6.883-.484.316-.916.652-1.296 1.009-.381.357-.709.735-.984 1.134-.275.399-.495.813-.658 1.241-.164.428-.282.866-.354 1.311-.073.444-.098.893-.076 1.342.023.448.092.886.205 1.311.114.426.271.832.469 1.217.198.385.436.747.711 1.083.275.336.585.643.925.918.34.275.711.514 1.101.709.391.195.802.345 1.227.447.425.103.865.156 1.311.156.347 0 .693-.029 1.029-.082.184-.027.356-.064.523-.109.053-.014.102-.045.133-.088.03-.043.047-.091.047-.141 0-.076-.023-.142-.082-.196-.76-.711-1.012-2.249-1.088-3.341-.065-1.491 1.056-5.965-2.69-6.298-.165-.013-.325-.021-.48-.021-1.657 0-3 1.343-3 3s1.343 3 3 3c.155 0 .315-.008.48-.021 4.226-.333 3.105-4.807 3.17-6.298.076-1.092.328-2.63 1.088-3.341.059-.054.082-.12.082-.196 0-.05-.017-.098-.047-.141-.031-.043-.08-.074-.133-.088-.167-.045-.339-.082-.514-.109-.336-.053-.682-.082-1.029-.082-.446 0-.886.053-1.311.156-.425.102-.836.252-1.227.447-.39.195-.76.434-1.101.709-.34.275-.65.582-.925.918-.275.336-.513.698-.711 1.083-.198.385-.355.791-.469 1.217-.113.425-.182.863-.205 1.311-.022.449.003.898.076 1.342.072.445.19.883.354 1.311.163.428.383.842.658 1.241.275.399.603.777.984 1.134.38.357.812.693 1.296 1.009.483.315 1.017.61 1.6.883.584.273 1.217.524 1.9.753.683.229 1.416.435 2.199.619.783.184 1.616.345 2.5.483.883.138 1.816.253 2.799.345.982.092 2.014.161 3.095.207 1.081.046 2.211.069 3.389.069 1.179 0 2.309-.023 3.39-.069 1.081-.046 2.113-.115 3.096-.207.982-.092 1.915-.207 2.799-.345.883-.138 1.717-.299 2.5-.483.783-.184 1.516-.39 2.199-.619.683-.229 1.316-.48 1.9-.753.583-.273 1.117-.568 1.6-.883.484-.316.916-.652 1.296-1.009.381-.357.709-.735.984-1.134.275-.399.495-.813.658-1.241.164-.428.282-.866.354-1.311.073-.444.098-.893.076-1.342-.023-.448-.092-.886-.205-1.311-.114-.426-.271-.832-.469-1.217-.198-.385-.436-.747-.711-1.083-.275-.336-.585-.643-.925-.918-.34-.275-.711-.514-1.101-.709-.391-.195-.802-.345-1.227-.447-.425-.103-.865-.156-1.311-.156z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-2">Linux</h3>
+                    <p class="text-gray-400 text-sm mb-4">AppImage and .deb</p>
+                    <button class="w-full px-4 py-2 bg-[#58a6ff] text-[#0d1117] font-semibold rounded-lg hover:bg-[#58a6ff]/90 transition">
+                        Download
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <a href="/download" class="text-[#58a6ff] hover:underline">View checksums and signatures →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="py-24 px-4 bg-[#161b22]">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-4xl font-bold text-white text-center mb-4">Pricing</h2>
+            <p class="text-gray-400 text-center mb-16">100% Open Source. TUI is free. Desktop is optional.</p>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Free -->
+                <div class="bg-[#21262d] border border-[#30363d] rounded-xl p-8">
+                    <h3 class="text-2xl font-bold text-white mb-2">TUI (Free)</h3>
+                    <p class="text-gray-400 mb-6">Full-featured terminal interface</p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Interactive TUI
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Flamegraph visualization
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            HTML export
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            All adapters
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Open source
+                        </li>
+                    </ul>
+                    <div class="text-center">
+                        <span class="text-4xl font-bold text-white">$0</span>
+                        <span class="text-gray-400">/forever</span>
+                    </div>
+                </div>
+
+                <!-- Pro -->
+                <div class="bg-[#21262d] border-2 border-[#58a6ff] rounded-xl p-8 relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-[#58a6ff] text-[#0d1117] text-sm font-semibold rounded-full">
+                        Pro
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Desktop Pro</h3>
+                    <p class="text-gray-400 mb-6">Advanced features for power users</p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Everything in TUI
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Advanced flamegraphs
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Replay mode
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Run diff/comparison
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Analytics charts
+                        </li>
+                        <li class="flex items-center gap-3 text-gray-300">
+                            <svg class="w-5 h-5 text-[#3fb950]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            IDE integration
+                        </li>
+                    </ul>
+                    <div class="text-center mb-4">
+                        <span class="text-4xl font-bold text-white">$19</span>
+                        <span class="text-gray-400">/month</span>
+                    </div>
+                    <div class="text-center mb-6">
+                        <span class="text-sm text-[#58a6ff]">or $199 one-time (first 100 buyers)</span>
+                    </div>
+                    <button class="w-full px-6 py-3 bg-[#58a6ff] text-[#0d1117] font-semibold rounded-lg hover:bg-[#58a6ff]/90 transition">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-4 bg-[#0d1117] border-t border-[#30363d]">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#3fb950] rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold text-white">griid-trace</span>
+                    </div>
+                    <p class="text-gray-400 text-sm">Chrome DevTools for AI Agents — 100% Local</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#features" class="hover:text-white transition">Features</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="#download" class="hover:text-white transition">Download</a></li>
+                        <li><a href="/docs" class="hover:text-white transition">Documentation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Community</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="https://github.com/griid-trace/griid-trace" class="hover:text-white transition">GitHub</a></li>
+                        <li><a href="https://github.com/griid-trace/griid-trace/issues" class="hover:text-white transition">Issues</a></li>
+                        <li><a href="https://github.com/griid-trace/griid-trace/discussions" class="hover:text-white transition">Discussions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition">License (MIT)</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-[#30363d] pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-gray-500 text-sm">© 2026 griid-trace. MIT License.</p>
+                <p class="text-gray-500 text-sm">Your data never leaves your machine.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

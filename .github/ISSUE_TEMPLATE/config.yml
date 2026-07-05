@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security Vulnerability
+    url: https://github.com/griid-trace/griid-trace/blob/main/SECURITY.md
+    about: Report security issues privately — do not open a public issue
+  - name: Discussions
+    url: https://github.com/griid-trace/griid-trace/discussions
+    about: Ask questions and share ideas with the community

@@ -1,0 +1,33 @@
+# Rust
+/target/
+**/*.rs.bk
+
+# Trace data
+.trace/
+trace.jsonl
+examples/*.jsonl
+!examples/sample-trace.jsonl
+
+# Node
+node_modules/
+dist/
+
+# Python
+*.egg-info/
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

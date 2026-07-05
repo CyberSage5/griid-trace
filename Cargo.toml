@@ -1,0 +1,63 @@
+[package]
+name = "griid-trace"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.80"
+authors = ["griid-trace"]
+description = "Chrome DevTools for AI Agent Runs - Local-first observability"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/griid-trace/griid-trace"
+homepage = "https://griid-trace.xyz"
+readme = "README.md"
+keywords = ["observability", "tracing", "ai", "agents", "tui"]
+categories = ["command-line-utilities", "development-tools", "visualization"]
+
+[dependencies]
+# Runtime
+tokio = { version = "1.35", features = ["full"] }
+
+# CLI
+clap = { version = "4.4", features = ["derive"] }
+
+# Parsing
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# File watching
+notify = "6.1"
+
+# Indexing
+sled = "0.34"
+
+# TUI
+ratatui = "0.26"
+crossterm = "0.27"
+
+# Time handling
+chrono = { version = "0.4", features = ["serde"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# File I/O
+tokio-util = { version = "0.7", features = ["io"] }
+
+# HTML export
+handlebars = "5.1"
+
+[dev-dependencies]
+tempfile = "3.8"
+
+[[bin]]
+name = "trace"
+path = "src/main.rs"
+
+# Convenience alias: `griid-trace` maps to same binary
+[[bin]]
+name = "griid-trace"
+path = "src/main.rs"
+
+[lib]
+name = "griid_trace"
+path = "src/lib.rs"

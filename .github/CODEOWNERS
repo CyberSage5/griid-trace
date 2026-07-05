@@ -1,0 +1,22 @@
+# Code Owners for griid-trace
+
+# Core maintainers
+* @griid-trace/maintainers
+
+# TUI
+/src/tui/ @griid-trace/tui-team
+
+# Desktop
+/src/ @griid-trace/desktop-team
+/tauri/ @griid-trace/desktop-team
+
+# Adapters
+/adapters/python/ @griid-trace/python-team
+/adapters/rust/ @griid-trace/rust-team
+
+# Documentation
+/*.md @griid-trace/docs-team
+/docs/ @griid-trace/docs-team
+
+# CI/CD
+.github/ @griid-trace/infra-team

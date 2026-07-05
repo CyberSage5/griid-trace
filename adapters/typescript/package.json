@@ -1,0 +1,31 @@
+{
+  "name": "trace-ts",
+  "version": "1.0.0",
+  "description": "TypeScript adapter for griid-trace — local-first AI agent observability",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run build && node --import tsx src/index.test.ts"
+  },
+  "keywords": ["tracing", "observability", "ai", "agents", "local-first"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/griid-trace/griid-trace",
+    "directory": "adapters/typescript"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0"
+  }
+}

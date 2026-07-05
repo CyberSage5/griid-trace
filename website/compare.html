@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="griid-trace vs LangSmith: 100% local-first AI agent observability. No cloud lock-in, no data sale, fully open source.">
+    <meta name="keywords" content="LangSmith alternative, local AI observability, open source tracing, agent debugging">
+    <meta property="og:title" content="griid-trace vs Cloud Observability — Local-First Wins">
+    <meta property="og:description" content="Why developers choose griid-trace over cloud tools for AI agent observability.">
+    <meta property="og:url" content="https://griid-trace.xyz/compare.html">
+    <link rel="canonical" href="https://griid-trace.xyz/compare.html">
+    <title>griid-trace vs Cloud Observability — Local-First Alternative</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-[#0d1117] text-gray-200">
+    <nav class="border-b border-[#30363d] bg-[#161b22] px-6 py-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-white">griid-trace</a>
+            <a href="index.html" class="text-gray-400 hover:text-white">← Home</a>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 py-16">
+        <h1 class="text-4xl font-bold text-white mb-4">Local-First vs Cloud Observability</h1>
+        <p class="text-xl text-gray-400 mb-12">
+            Tools like <a href="https://www.langchain.com/" class="text-[#58a6ff] hover:underline" rel="noopener">LangSmith</a>
+            are powerful — but they send your agent traces to the cloud by design.
+            griid-trace gives you the observability you need without surrendering your data.
+        </p>
+
+        <div class="overflow-x-auto border border-[#30363d] rounded-xl mb-12">
+            <table class="w-full text-sm">
+                <thead class="bg-[#21262d]">
+                    <tr>
+                        <th class="text-left p-4 text-gray-400">Feature</th>
+                        <th class="text-left p-4 text-[#58a6ff]">griid-trace</th>
+                        <th class="text-left p-4 text-gray-400">Typical Cloud Tool</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-[#30363d]">
+                    <tr><td class="p-4">Data location</td><td class="p-4 text-[#3fb950]">Your machine only</td><td class="p-4">Vendor cloud</td></tr>
+                    <tr><td class="p-4">Account required</td><td class="p-4 text-[#3fb950]">No</td><td class="p-4">Yes</td></tr>
+                    <tr><td class="p-4">Open source</td><td class="p-4 text-[#3fb950]">100% MIT/Apache</td><td class="p-4">Partial / closed</td></tr>
+                    <tr><td class="p-4">Telemetry / phone-home</td><td class="p-4 text-[#3fb950]">Zero</td><td class="p-4">Usage analytics</td></tr>
+                    <tr><td class="p-4">Air-gapped / offline</td><td class="p-4 text-[#3fb950]">Full support</td><td class="p-4">Limited</td></tr>
+                    <tr><td class="p-4">Trace format</td><td class="p-4">Open trace.jsonl</td><td class="p-4">Proprietary API</td></tr>
+                    <tr><td class="p-4">Flamegraphs & timeline</td><td class="p-4 text-[#3fb950]">TUI + Desktop</td><td class="p-4">Web dashboard</td></tr>
+                    <tr><td class="p-4">Cost tracking</td><td class="p-4 text-[#3fb950]">Local</td><td class="p-4">Cloud</td></tr>
+                    <tr><td class="p-4">Vendor lock-in</td><td class="p-4 text-[#3fb950]">None</td><td class="p-4">High</td></tr>
+                    <tr><td class="p-4">Pricing</td><td class="p-4 text-[#3fb950]">Free TUI forever</td><td class="p-4">Per-seat / usage</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 mb-12">
+            <div class="bg-[#161b22] border border-[#30363d] rounded-xl p-6">
+                <h2 class="text-xl font-semibold text-white mb-3">When cloud tools make sense</h2>
+                <ul class="text-gray-400 space-y-2 text-sm">
+                    <li>• Team-wide shared dashboards across many engineers</li>
+                    <li>• Managed eval pipelines with human review workflows</li>
+                    <li>• You are comfortable with trace data leaving your network</li>
+                </ul>
+            </div>
+            <div class="bg-[#161b22] border border-[#58a6ff]/40 rounded-xl p-6">
+                <h2 class="text-xl font-semibold text-[#58a6ff] mb-3">When griid-trace wins</h2>
+                <ul class="text-gray-300 space-y-2 text-sm">
+                    <li>• Regulated industries (healthcare, finance, defense)</li>
+                    <li>• Proprietary prompts, code, and customer data</li>
+                    <li>• Local / offline LLM development (Ollama, vLLM)</li>
+                    <li>• You want to audit every line of observability code</li>
+                    <li>• No budget for per-seat SaaS observability</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="index.html#install" class="inline-block px-8 py-4 bg-[#58a6ff] text-[#0d1117] font-semibold rounded-lg hover:bg-[#58a6ff]/90">
+                Get Started — cargo install griid-trace
+            </a>
+            <p class="text-gray-500 text-sm mt-4">Open source. No signup. Works in 60 seconds.</p>
+        </div>
+    </main>
+</body>
+</html>

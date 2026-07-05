@@ -1,0 +1,197 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-cli:
+    name: CLI (${{ matrix.asset_name }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            artifact_name: trace
+            asset_name: griid-trace-linux-amd64
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            artifact_name: trace
+            asset_name: griid-trace-linux-arm64
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            artifact_name: trace.exe
+            asset_name: griid-trace-windows-amd64.exe
+          - os: windows-latest
+            target: aarch64-pc-windows-msvc
+            artifact_name: trace.exe
+            asset_name: griid-trace-windows-arm64.exe
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            artifact_name: trace
+            asset_name: griid-trace-macos-amd64
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            artifact_name: trace
+            asset_name: griid-trace-macos-arm64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Build release
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Package binary
+        shell: bash
+        run: |
+          cd target/${{ matrix.target }}/release
+          cp ${{ matrix.artifact_name }} ${{ matrix.asset_name }}
+          sha256sum ${{ matrix.asset_name }} > ${{ matrix.asset_name }}.sha256
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.asset_name }}
+          path: |
+            target/${{ matrix.target }}/release/${{ matrix.asset_name }}
+            target/${{ matrix.target }}/release/${{ matrix.asset_name }}.sha256
+
+  build-desktop:
+    name: Desktop (${{ matrix.platform }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install Linux dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Install frontend
+        run: npm install
+
+      - name: Generate icons
+        run: python scripts/generate-icons.py
+
+      - name: Build Tauri app
+        run: npm run tauri build
+
+      - name: Upload desktop bundles
+        uses: actions/upload-artifact@v4
+        with:
+          name: griid-trace-desktop-${{ matrix.platform }}
+          path: |
+            tauri/target/release/bundle/**/*
+
+  sign-checksums:
+    name: Sign Checksums
+    needs: [build-cli]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Combine SHA256 checksums
+        run: |
+          find artifacts -name '*.sha256' -exec cat {} \; > SHA256SUMS
+          cat SHA256SUMS
+
+      - name: Install minisign
+        run: |
+          wget -qO minisign.tar.gz https://github.com/jedisct1/minisign/releases/download/0.11/minisign-0.11-linux.tar.gz
+          tar xzf minisign.tar.gz
+          sudo mv minisign-linux/minisign /usr/local/bin/
+
+      - name: Sign checksums (if secret configured)
+        env:
+          MINISIGN_SECRET_KEY: ${{ secrets.MINISIGN_SECRET_KEY }}
+        run: |
+          if [ -n "$MINISIGN_SECRET_KEY" ]; then
+            echo "$MINISIGN_SECRET_KEY" > minisign.key
+            minisign -S -s minisign.key -m SHA256SUMS -x SHA256SUMS.minisig
+            rm -f minisign.key
+          else
+            echo "MINISIGN_SECRET_KEY not set — skipping signature"
+            touch SHA256SUMS.minisig.unsigned
+          fi
+
+      - name: Upload signed checksums
+        uses: actions/upload-artifact@v4
+        with:
+          name: checksums-signed
+          path: |
+            SHA256SUMS
+            SHA256SUMS.minisig*
+
+  create-release:
+    name: Create GitHub Release
+    needs: [build-cli, build-desktop, sign-checksums]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+
+      - name: Flatten release files
+        run: |
+          mkdir -p release
+          find release-artifacts -type f ! -name '*.sha256' -exec cp {} release/ \;
+          cp release-artifacts/checksums-signed/SHA256SUMS release/ 2>/dev/null || true
+          cp release-artifacts/checksums-signed/SHA256SUMS.minisig release/ 2>/dev/null || true
+          ls -la release/
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*
+          generate_release_notes: true
+          body: |
+            ## griid-trace ${{ github.ref_name }}
+
+            **100% local-first AI agent observability.** No cloud. No telemetry.
+
+            ### Verify Downloads
+            ```bash
+            sha256sum -c SHA256SUMS
+            ```
+
+            See [AUDIT.md](https://github.com/griid-trace/griid-trace/blob/main/AUDIT.md) for security details.
