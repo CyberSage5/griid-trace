@@ -50,6 +50,16 @@ cargo install --path .
    trace tui --watch ./trace.jsonl
    ```
 
+## Website vs Desktop vs TUI
+
+This repository contains three separate experiences:
+
+- `website/` — the marketing site and public web content. Host this folder if you want a website for the project.
+- `index.html` + `src/` + `tauri/` — the desktop app shell powered by React + Tauri. This is not the marketing website.
+- Rust CLI/TUI — the terminal app under `src/` and the `trace`/`griid-trace` binaries.
+
+If you only want a public website, serve the `website/` folder. Do not host the root `index.html` from the repo root as a public website unless you intend to expose the desktop app shell.
+
 ## CLI Commands
 
 ### Interactive TUI

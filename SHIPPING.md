@@ -61,6 +61,8 @@ git push origin v1.0.0
 ### 9. Website
 Deploy `website/` to griid-trace.xyz.
 
+> Note: `website/` is the marketing site. The root `index.html` and `src/` are the desktop app shell used by Tauri, not the public website.
+
 ## Post-release
 
 - Verify checksums: `sha256sum -c SHA256SUMS`
