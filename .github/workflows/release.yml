@@ -63,7 +63,7 @@ jobs:
           sha256sum ${{ matrix.asset_name }} > ${{ matrix.asset_name }}.sha256
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.asset_name }}
           path: |
@@ -112,7 +112,7 @@ jobs:
         run: npm run tauri build
 
       - name: Upload desktop bundles
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: griid-trace-desktop-${{ matrix.platform }}
           path: |
@@ -152,7 +152,7 @@ jobs:
           fi
 
       - name: Upload signed checksums
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: checksums-signed
           path: |
