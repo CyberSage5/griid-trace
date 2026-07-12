@@ -44,7 +44,7 @@ thiserror = "1.0"
 tokio-util = { version = "0.7", features = ["io"] }
 
 # HTML export
-handlebars = "5.1"
+handlebars = "6.4"
 
 [dev-dependencies]
 tempfile = "3.8"
