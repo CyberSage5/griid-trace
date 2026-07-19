@@ -38,7 +38,7 @@ chrono = { version = "0.4", features = ["serde"] }
 
 # Error handling
 anyhow = "1.0"
-thiserror = "1.0"
+thiserror = "2.0"
 
 # File I/O
 tokio-util = { version = "0.7", features = ["io"] }
